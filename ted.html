@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TED Safety Talks Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #555, #333);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 21px;
+            color: #86868b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+            background-color: #fff;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #1d1d1f;
+            border-bottom: 1px solid #d2d2d7;
+            padding-bottom: 12px;
+        }
+        
+        .talk-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            background-color: #f5f5f7;
+            transition: all 0.3s ease;
+        }
+        
+        .talk-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .talk-info {
+            flex: 1;
+        }
+        
+        .talk-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        .talk-description {
+            font-size: 16px;
+            color: #86868b;
+            margin-bottom: 12px;
+        }
+        
+        .talk-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background-color: #0071e3;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0077ed;
+        }
+        
+        .btn-secondary {
+            background-color: #e8e8ed;
+            color: #1d1d1f;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d2d2d7;
+        }
+        
+        .vote-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #86868b;
+        }
+        
+        .vote-count span {
+            font-weight: 600;
+            color: #0071e3;
+        }
+        
+        .add-talk-form {
+            background-color: #fff;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 60px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #1d1d1f;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #d2d2d7;
+            font-size: 16px;
+            background-color: #f5f5f7;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #0071e3;
+            background-color: #fff;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #86868b;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .talk-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .talk-actions {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 16px;
+            }
+            
+            h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TED Safety Talks Collection</h1>
+            <p class="subtitle">探索安全的多维度视角，从物理安全到心理安全，从直觉感知到社会安全</p>
+        </header>
+        
+        <div class="add-talk-form">
+            <h2 class="section-title">添加新的TED演讲</h2>
+            <form id="addTalkForm">
+                <div class="form-group">
+                    <label for="talkCategory">安全维度</label>
+                    <select id="talkCategory" required>
+                        <option value="">请选择</option>
+                        <option value="physical">物理与情境安全/风险</option>
+                        <option value="psychological">心理/人际安全</option>
+                        <option value="intuition">直觉、感知、不明显方面</option>
+                        <option value="social">社会/性别/公共安全</option>
+                        <option value="critical">批判性/悖论观点</option>
+                        <option value="feeling">"感觉安全"感</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="talkTitle">演讲标题</label>
+                    <input type="text" id="talkTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="talkSpeaker">演讲者</label>
+                    <input type="text" id="talkSpeaker" required>
+                </div>
+                <div class="form-group">
+                    <label for="talkDescription">内容描述</label>
+                    <textarea id="talkDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="talkUrl">视频链接</label>
+                    <input type="url" id="talkUrl" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="resetForm">重置</button>
+                    <button type="submit" class="btn btn-primary">添加演讲</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="talksContainer">
+            <div class="section" data-category="physical">
+                <h2 class="section-title">物理与情境安全/风险</h2>
+                <div class="talk-card" data-id="1">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Kelsey Hoppe: Where is Safe?</h3>
+                        <p class="talk-description">探索我们如何定义"安全"，以及我们对安全的感知如何受到挑战。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/kelsey_hoppe_where_is_safe/details?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="1">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+                <div class="talk-card" data-id="2">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Nick Droege: Personal Safety in the Modern World</h3>
+                        <p class="talk-description">探讨当代背景下个人安全的工具和方法。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/nick_droege_personal_safety_in_the_modern_world?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="2">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+                <div class="talk-card" data-id="3">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Justin Blitz: The Power of The Safety of Play</h3>
+                        <p class="talk-description">将安全不仅视为保护，还视为游戏、创造力和成长的推动者。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/justin_blitz_the_power_of_the_safety_of_play?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="3">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" data-category="psychological">
+                <h2 class="section-title">心理/人际安全</h2>
+                <div class="talk-card" data-id="4">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Building a psychologically safe workplace (Amy Edmondson)</h3>
+                        <p class="talk-description">如何创造人们感到安全发言、犯错和学习的环境。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.youtube.com/watch?v=LhoLuui9gX8&utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="4">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+                <div class="talk-card" data-id="5">
+                    <div class="talk-info">
+                        <h3 class="talk-title">The Case for Psychological Safety and Better Teams (Rafael Chiuzi)</h3>
+                        <p class="talk-description">专注于团队，基于恐惧的文化如何损害表现，以及安全如何促进协作。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/rafael_chiuzi_the_case_for_psychological_safety_and_better_teams?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="5">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+                <div class="talk-card" data-id="6">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Is It Safe to Speak Up at Work? (Adam Grant / WorkLife series)</h3>
+                        <p class="talk-description">心理安全如何帮助防止错误并培养更好的组织文化。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/worklife_with_adam_grant_is_it_safe_to_speak_up_at_work?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="6">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" data-category="intuition">
+                <h2 class="section-title">直觉、感知、不明显方面</h2>
+                <div class="talk-card" data-id="7">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Joy Farrow: The danger of ignoring your safety intuition</h3>
+                        <p class="talk-description">内部线索（直觉）如何在危险临近时警告我们。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/joy_farrow_the_danger_of_ignoring_your_safety_intuition?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="7">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+                <div class="talk-card" data-id="8">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Ali Al Rashid: How our sense can enhance our safety</h3>
+                        <p class="talk-description">研究我们的感官（除了明显的感官之外）如何被增强或利用以提高安全性。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/ali_al_rashid_how_our_sense_can_enhance_our_safety?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="8">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" data-category="social">
+                <h2 class="section-title">社会/性别/公共安全</h2>
+                <div class="talk-card" data-id="9">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Jasmeen Patheja: Everyone deserves to be safe</h3>
+                        <p class="talk-description">关注社会规范、性别，以及人们（尤其是女性）如何每天随身携带小型"安全工具"。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/jasmeen_patheja_everyone_deserves_to_be_safe?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="9">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" data-category="critical">
+                <h2 class="section-title">批判性/悖论观点</h2>
+                <div class="talk-card" data-id="10">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Spike Edwards: Safety is Dangerous</h3>
+                        <p class="talk-description">提出过度关注"安全"会削弱我们对真实风险的敏感性的悖论。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/spike_edwards_safety_is_dangerous?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="10">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" data-category="feeling">
+                <h2 class="section-title">"感觉安全"感</h2>
+                <div class="talk-card" data-id="11">
+                    <div class="talk-info">
+                        <h3 class="talk-title">Stacey Mason: The Concept Of Feeling Safe Changed My Life</h3>
+                        <p class="talk-description">探索情感/体验方面 - 感到安全（不仅仅是安全）意味着什么。</p>
+                    </div>
+                    <div class="talk-actions">
+                        <button class="btn btn-primary watch-btn" data-url="https://www.ted.com/talks/stacey_mason_the_concept_of_feeling_safe_changed_my_life?utm_source=chatgpt.com">观看</button>
+                        <button class="btn btn-secondary vote-btn" data-id="11">投票</button>
+                        <div class="vote-count">
+                            <span class="vote-number">0</span> 票
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 TED Safety Talks Collection | 探索安全的多维度视角</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化投票数据
+            initializeVotes();
+            
+            // 观看按钮点击事件
+            document.querySelectorAll('.watch-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url');
+                    window.open(url, '_blank');
+                });
+            });
+            
+            // 投票按钮点击事件
+            document.querySelectorAll('.vote-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const talkId = this.getAttribute('data-id');
+                    voteForTalk(talkId);
+                });
+            });
+            
+            // 添加新演讲表单提交事件
+            document.getElementById('addTalkForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNewTalk();
+            });
+            
+            // 重置表单按钮点击事件
+            document.getElementById('resetForm').addEventListener('click', function() {
+                document.getElementById('addTalkForm').reset();
+            });
+        });
+        
+        // 初始化投票数据
+        function initializeVotes() {
+            const votes = JSON.parse(localStorage.getItem('tedTalkVotes')) || {};
+            
+            document.querySelectorAll('.talk-card').forEach(card => {
+                const talkId = card.getAttribute('data-id');
+                const voteCountElement = card.querySelector('.vote-number');
+                
+                if (votes[talkId]) {
+                    voteCountElement.textContent = votes[talkId];
+                }
+            });
+        }
+        
+        // 为演讲投票
+        function voteForTalk(talkId) {
+            const votes = JSON.parse(localStorage.getItem('tedTalkVotes')) || {};
+            
+            if (!votes[talkId]) {
+                votes[talkId] = 0;
+            }
+            
+            votes[talkId]++;
+            localStorage.setItem('tedTalkVotes', JSON.stringify(votes));
+            
+            // 更新UI
+            const voteCountElement = document.querySelector(`.talk-card[data-id="${talkId}"] .vote-number`);
+            voteCountElement.textContent = votes[talkId];
+            
+            // 显示投票成功提示
+            const voteButton = document.querySelector(`.talk-card[data-id="${talkId}"] .vote-btn`);
+            const originalText = voteButton.textContent;
+            voteButton.textContent = '已投票';
+            voteButton.disabled = true;
+            
+            setTimeout(() => {
+                voteButton.textContent = originalText;
+                voteButton.disabled = false;
+            }, 2000);
+        }
+        
+        // 添加新演讲
+        function addNewTalk() {
+            const category = document.getElementById('talkCategory').value;
+            const title = document.getElementById('talkTitle').value;
+            const speaker = document.getElementById('talkSpeaker').value;
+            const description = document.getElementById('talkDescription').value;
+            const url = document.getElementById('talkUrl').value;
+            
+            // 获取所有现有的演讲卡片，以确定新的ID
+            const existingCards = document.querySelectorAll('.talk-card');
+            const newId = existingCards.length > 0 ? 
+                Math.max(...Array.from(existingCards).map(card => parseInt(card.getAttribute('data-id')))) + 1 : 1;
+            
+            // 获取分类标题
+            const categoryTitles = {
+                'physical': '物理与情境安全/风险',
+                'psychological': '心理/人际安全',
+                'intuition': '直觉、感知、不明显方面',
+                'social': '社会/性别/公共安全',
+                'critical': '批判性/悖论观点',
+                'feeling': '"感觉安全"感'
+            };
+            
+            // 查找或创建分类部分
+            let categorySection = document.querySelector(`.section[data-category="${category}"]`);
+            
+            if (!categorySection) {
+                // 创建新的分类部分
+                categorySection = document.createElement('div');
+                categorySection.className = 'section';
+                categorySection.setAttribute('data-category', category);
+                categorySection.innerHTML = `
+                    <h2 class="section-title">${categoryTitles[category]}</h2>
+                `;
+                
+                // 添加到容器中
+                document.getElementById('talksContainer').appendChild(categorySection);
+            }
+            
+            // 创建新的演讲卡片
+            const newTalkCard = document.createElement('div');
+            newTalkCard.className = 'talk-card';
+            newTalkCard.setAttribute('data-id', newId);
+            newTalkCard.innerHTML = `
+                <div class="talk-info">
+                    <h3 class="talk-title">${speaker}: ${title}</h3>
+                    <p class="talk-description">${description}</p>
+                </div>
+                <div class="talk-actions">
+                    <button class="btn btn-primary watch-btn" data-url="${url}">观看</button>
+                    <button class="btn btn-secondary vote-btn" data-id="${newId}">投票</button>
+                    <div class="vote-count">
+                        <span class="vote-number">0</span> 票
+                    </div>
+                </div>
+            `;
+            
+            // 添加到分类部分
+            categorySection.appendChild(newTalkCard);
+            
+            // 为新添加的按钮添加事件监听器
+            const watchBtn = newTalkCard.querySelector('.watch-btn');
+            watchBtn.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                window.open(url, '_blank');
+            });
+            
+            const voteBtn = newTalkCard.querySelector('.vote-btn');
+            voteBtn.addEventListener('click', function() {
+                const talkId = this.getAttribute('data-id');
+                voteForTalk(talkId);
+            });
+            
+            // 重置表单
+            document.getElementById('addTalkForm').reset();
+            
+            // 滚动到新添加的演讲
+            newTalkCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // 高亮显示新添加的演讲
+            newTalkCard.style.backgroundColor = '#e8f5fe';
+            setTimeout(() => {
+                newTalkCard.style.backgroundColor = '';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
